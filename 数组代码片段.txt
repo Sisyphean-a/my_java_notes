@@ -1,0 +1,240 @@
+/*
+    编程实现一维数组的声明和使用
+*/
+
+public class FourAndFive{
+
+    public static void main(String[] args){
+
+        int[] arr = new int[3];
+
+        System.out.println("数组的长度为:" + arr.length);
+        System.out.println("下标为0的元素" + arr[0]);
+        System.out.println("下标为3的元素" +arr[3]);
+        //ArrayIndexOutOfBoundsException 数组下标越界异常
+    }
+}
+
+
+
+
+/*
+    使用for循环打印数组中的所有元素
+*/
+
+public class FourAndFive{
+
+    public static void main(String[] args){
+
+        int[] arr = {1,2,3,4,5};
+
+        for(int i=0;i<arr.length;i++){
+            System.out.print(arr[i] + " ");
+        }
+        System.out.println();
+    }
+}
+
+
+
+/*
+    一维数组的增删改减
+*/
+
+public class FourAndFive{
+
+    public static void main(String[] args){
+
+        //创建一个含有五个元素的数组
+        int[] arr = new int[5];
+
+        //赋值11，22，33，44给前4个值
+        for(int i=0;i<arr.length-1;i++){
+            arr[i] = (i+1)*11;
+        }
+
+        for(int i=0;i<arr.length;i++){
+            System.out.print(arr[i] + " ");
+        }
+        System.out.println();
+
+        //插入55到第一个位置，其他元素依次后移
+        for(int i=arr.length;i>1;i--){
+            arr[i-1] = arr[i-2];
+        }
+        arr[0] = 55;
+
+        for(int i=0;i<arr.length;i++){
+            System.out.print(arr[i] + " ");
+        }
+        System.out.println();
+
+        //删除第一个元素55，其他元素依次前移
+        for(int i=0;i<arr.length;i++){
+            if (i==arr.length-1){
+                arr[i] = 0;
+            }else{
+                arr[i] = arr[i+1];
+            }
+        }
+
+        for(int i=0;i<arr.length;i++){
+            System.out.print(arr[i] + " ");
+        }
+        System.out.println();
+
+        //查找是否有元素22，若有则修改为220
+        for(int i=0;i<arr.length;i++){
+            if(arr[i]==22){
+                arr[i] = 220;
+            }
+            System.out.print(arr[i] + " ");
+        }
+    }
+}
+
+
+
+/*
+    数组的拷贝
+*/
+
+public class FourAndFive{
+
+    public static void main(String[] args){
+
+        int[] arr = {11,22,33,44,55};
+        int[] brr = new int[3];
+
+        for(int i=0;i<arr.length;i++){
+            System.out.print(arr[i] + " ");
+        }
+        System.out.println();
+
+        for(int i=0;i<brr.length;i++){
+            brr[i] = arr[i+1];
+        }
+
+        for(int i=0;i<brr.length;i++){
+            System.out.print(brr[i] +" ");
+        }
+        System.out.println();
+    }
+}
+
+
+/*
+    统计用户输入的任意一个正整数中每个数字出现的次数
+*/
+
+import java.util.Scanner;
+
+public class FourAndFive{
+
+    public static void main(String[] args){
+
+        System.out.println("请输入一个正整数：");
+        Scanner sc = new Scanner(System.in);
+        int num = sc.nextInt();
+
+        int[] arr = new int[10];
+
+        int cop = num;
+        while(cop>0){
+            arr[cop%10]++;
+            cop /= 10
+        }
+
+        for(int i=0;i<arr.length;i++){
+            if(arr[i] != 0){
+                System.out.println(i + "的个数为：" + arr[i]);
+            }
+        }
+    }
+}
+
+
+
+
+
+
+/*
+    使用编程实现学生成绩的输入与输出
+*/
+
+import java.util.Scanner;
+
+public class FourAndFive{
+
+    public static void main(String[] args){
+
+        System.out.println("请输入学生的个数：");
+        Scanner sc = new Scanner(System.in);
+        int num = sc.nextInt();
+
+        int[] arr = new int[num];
+
+        for(int i=0;i<arr.length;i++){
+            System.out.println("请输入第" + i + "个学生的成绩：");
+            int achievement = sc.nextInt();
+            arr[i] = achievement;
+        }
+
+        System.out.println("学生的成绩：");
+        for(int i=0;i<arr.length;i++){
+            System.out.print( arr[i] + " ");
+        }
+        System.out.println();
+
+        System.out.print("总成绩：");
+        int sum = 0;
+        for(int i=0;i<arr.length;i++){
+            sum += arr[i];
+        }
+        System.out.println(sum);
+
+        double average = 0.0;
+        average = (sum/1.0)/arr.length;
+        System.out.println("平均分：" + average);
+    }
+}
+
+
+
+
+/*
+    使用编程实现杨辉三角
+*/
+
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class FourAndFive{
+
+    public static void main(String[] args){
+
+        System.out.println("请输入一个整数：");
+        Scanner sc = new Scanner(System.in);
+        int num = sc.nextInt();
+
+        int[][] arr = new int[num][];
+
+        for (int i=0;i<num;i++){
+            arr[i] = new int[i+1];
+            for(int j=0;j<=i;j++){
+                if(j==0 || j==i){
+                    arr[i][j] = 1;
+                } else{
+                    arr[i][j] = arr[i-1][j] + arr[i-1][j-1];
+                }
+            }
+        }
+
+        for(int i=0;i<num;i++){
+            for(int j=0;j<=i;j++){
+                System.out.print(arr[i][j] + " ");
+            }
+            System.out.println();
+        }
+    }
+}

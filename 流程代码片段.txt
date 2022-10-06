@@ -1,0 +1,383 @@
+/*
+    使用switch case分支结构实现考试成绩的等级判断
+*/
+
+import java.util.Scanner;
+
+public class Three{
+
+    public static void main(String[] args){
+
+        System.out.println("请输入你的成绩：" );
+        Scanner sc = new Scanner(System.in);
+        int achievement = sc.nextInt();
+
+        switch(achievement / 10){
+            case 10: //System.out.println("等级A");break;
+            case 9 : System.out.println("等级A");break;
+            case 8 : System.out.println("等级B");break;
+            case 7 : System.out.println("等级C");break;
+            case 6 : System.out.println("等级D");break;
+            default: System.out.println("等级E");
+        }
+    }
+}
+
+/*
+    使用switch case 分支结构模拟菜单效果
+*/
+
+import java.util.Scanner;
+
+public class Three{
+
+    public static void main (String[] args){
+
+        System.out.println("        欢迎来到拉钩教育");
+        System.out.println("--------------------------------");
+        System.out.print("  [1]学院系统    ");
+        System.out.println("[2]管理员系统");
+        System.out.println("  [0]退出系统");
+        System.out.println("--------------------------------");
+        System.out.println("请选择要进入的系统：");
+
+        Scanner sc = new Scanner(System.in);
+        int num = sc.nextInt();
+
+        switch(num) {
+            case 1:System.out.println("已进入学院系统");break;
+            case 2:System.out.println("已进入管理员系统");break;
+            case 0:System.out.println("退出系统");break;
+            default :System.out.println("输入错误，请重新输入");
+        }
+    }
+}
+
+/*
+    使用for循环实现1~100之间所有奇数的打印
+*/
+
+public class Three{
+
+    public static void main (String[] args) {
+
+        for(int i = 1;i <=100;i++){
+            if(0 != i%2){
+                System.out.print(i+" " );
+            }
+        }
+        System.out.println("");
+        System.out.println("-------------------------------");
+
+        for (int i = 1 ;i<=100 ; i+=2){
+            System.out.print(i+" ");
+        }
+        System.out.println("");
+        System.out.println("-------------------------------");
+
+        for (int i = 1; i<=50;i++){
+            System.out.print(i*2-1+" ");
+        }
+    }
+}
+
+
+/*
+    编程使用for实现1~10000之间整数的累加
+*/
+
+public class Three{
+
+    public static void main(String[] args){
+
+        int num = 0;
+        for (int i=1;i<=10000;i++){
+            num += i;
+        }
+        System.out.println("结果是：" + num);
+    }
+}
+
+
+
+/*
+    使用for循环打印三位数中的水仙花数
+*/
+
+public class Three{
+
+    public static void main(String[] args){
+
+        for (int i=100;i<10000;i++){
+            int a = i%10;
+            int b = i/100%10;
+            int c = i/100;
+
+            if(i == (a*a*a+b*b*b+c*c*c)){
+                System.out.println(i);
+            }
+        }
+    }
+}
+
+
+
+/*
+    变成使用continue关键字的使用
+*/
+
+public class Three{
+
+    public static void main(String[] args){
+
+        for (int i = 1;i<20;i++){
+            if (0 == i%5){
+                continue;
+            }
+            System.out.println(i);
+        }
+    }
+}
+
+
+
+/*
+编程使用for关键字和break关键字来模拟聊天的过程
+*/
+
+import java.util.Scanner;
+
+public class Three{
+
+    public static void main(String[] args){
+        boolean whose = true;
+        for(;;){
+            System.out.println("请"+ (whose?"你":"他") +"输入要发送的内容");
+            Scanner sc = new Scanner(System.in);
+            String str = sc.next();
+            if ("bye".equals(str)){
+                System.out.println("聊天结束");
+                break;
+            }
+            whose = !whose;
+            System.out.println((whose?"他":"你")+"说：" + str);
+
+        }
+    }
+}
+
+
+
+
+/*
+    使用for循环猜数字
+*/
+
+import java.util.Scanner;
+import java.util.Random;
+
+public class Three{
+
+    public static void main (String[] args){
+
+        Random ra = new Random();
+        int a = ra.nextInt(100)+1;
+        int q = 0;
+
+        for(;;){
+            System.out.println("请输入你猜的数字：");
+            Scanner sc = new Scanner(System.in);
+            int num = sc.nextInt();
+            q++;
+            if (num == a){
+                System.out.println("恭喜你猜对了！");
+                break;
+            } else if (num > a){
+                System.out.println("偏大了，再猜小一点");
+            } else {
+                System.out.println("偏小了，再猜大一点");
+            }
+        }
+        if(q == 1){
+            System.out.println("一次就猜中了？牛批！");
+        } else if (q < 6){
+            System.out.println("你使用了"+q+"次猜对的，还不错");
+        } else {
+            System.out.println("你使用了"+q+"次猜对的，有待加油");
+        }
+    }
+}
+
+
+
+/*
+    编程使用双重for循环的使用
+*/
+
+public class Three{
+
+    public static void main(String[] args){
+
+        for(int i=1;i<6;i++){
+            for(int j=1;j<6;j++){
+                System.out.print("中国加油！");
+            }
+            System.out.println("");
+        }
+    }
+}
+
+
+
+/*
+    编程实现星号的输出
+*/
+
+public class Three{
+
+    public static void main(String[] args){
+
+        for(int i=1;i<=5;i++){
+            for(int j=1;j<=i;j++){
+                System.out.print("*");
+            }
+            System.out.println("");
+        }
+        System.out.println("----------------------");
+        for(int i=1;i<=5;i++){
+            for(int j=5-i;j>=0;j--){
+                System.out.print("*");
+            }
+            System.out.println("");
+        }
+        System.out.println("----------------------");
+        for(int i=1;i<=5;i++){
+            for(int k=1;k<=5-i;k++){
+                System.out.print(" ");
+            }
+            for(int j=1;j<=2*i-1;j++){
+                System.out.print("*");
+            }
+            System.out.println("");
+        }
+    }
+}
+
+
+/*
+    使用双重for循环实现九九乘法表
+*/
+
+public class Three{
+    public static void main (String[] args){
+        a:for(int i=1;i<=9;i++){
+            for(int j=1;j<=i;j++){
+                if (i>6){
+                    break a;
+                }
+                System.out.print(i+"*"+j+"="+(i*j)+"  ");
+            }
+            System.out.println("");
+        }
+    }
+}
+
+
+/*
+    使用for编程实现2~100之间的所有素数
+*/
+
+public class Three{
+    public static void main(String[] args){
+        for (int i=2;i<=100;i++){
+            boolean a=true;
+            for(int j=2;j<=Math.sqrt(i);j++){
+                if(0==i%j){
+                    a=false;
+                    break;
+                }
+            }
+            if(a){
+                System.out.print(i+"   ");
+            }
+        }
+    }
+}
+
+
+
+
+/*
+    使用while循环实现调和数列的累加和并打印
+*/
+
+import java.util.Scanner;
+
+public class FourAndFive{
+
+    public static void main(String[] args){
+
+        System.out.println("请输入一个整数：");
+        Scanner sc = new Scanner(System.in);
+        int num = sc.nextInt();
+
+        double a = 0.0;
+
+        int i = 1;
+        while(i<=num){
+            a += 1.0/i;
+            i++;
+        }
+
+        System.out.println("最终的结果是：" + a);
+    }
+}
+
+
+/*
+    使用while循环来实现整数的逆序输出
+*/
+
+import java.util.Scanner;
+
+public class FourAndFive{
+
+    public static void main(String[] args){
+
+        System.out.println("请输入一个整数：");
+        Scanner sc = new Scanner(System.in);
+        int num = sc.nextInt();
+
+        int res = 0;
+        int temp = num;
+        while(temp>0){
+            res = temp%10 + res*10;
+            temp = temp/10;
+        }
+        System.out.println(num+"逆序后的结果是："+res);
+    }
+}
+
+
+
+
+/*
+    使用do while循环来模拟学习效果的检查
+*/
+
+import java.util.Scanner;
+
+public class FourAndFive{
+
+    public static void main(String[] args) throws Exception{
+        String msg = null;
+        do {
+            System.out.println("正在学习中...");
+            Thread.sleep(2000);
+            System.out.println("是否合格(y/n)：");
+            Scanner sc = new Scanner(System.in);
+            msg = sc.next();
+        } while(!"y".equals(msg));
+        System.out.println("任务完成！");
+    }
+}

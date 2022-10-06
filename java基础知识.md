@@ -621,6 +621,210 @@ public class WhileLoop{
 
 ## 四、数组
 
-### 4.1一维数组
+### 4.1 一维数组
 
-基本概念：在内存空间中申请的一段连续的存储单元 
+基本概念：在内存空间中申请的一段连续的存储单元 ，呈线性排列，体现为一种引用数据类型
+
+使用场景：但需要在java中记录多个类型相同的数据内容时，则声明一个一维数组
+
+声明方式：`数据类型[] 数组名称 = new 数据类型[ 数组的长度 ]` 
+
+常用属性：length，可以用于获取数组的长度，例如 `num = arr.length`
+
+访问方式：通过下标的方式访问数组中的每一个元素，下标从0开始
+
+常见异常：**ArrayIndexOutOfBoundsException** 数组下标越界异常，需记忆
+
+#### 一维数组的初始化：
+
+- 动态方式：不设置初始值，只输入长度。例如：`int[] arr = new int[5];`
+
+  元素的初始值：byte,short,char,int,long为0；float和double为0.0；boolean为false；
+
+- 静态方式：声明数组的同时赋予初始值
+
+  格式：`数据类型[] 数组名称 = {初始值1，初始值2，初始值3}；`
+
+  例如：`char[] arr = {'a', 'b', 'c', 'd', 'e'};`
+
+案例： 统计输入的整数的各个数字的出现次数
+
+```java
+import java.util.Scanner;
+public class FourAndFive{
+    public static void main(String[] args){
+
+        System.out.println("请输入一个正整数：");
+        Scanner sc = new Scanner(System.in);
+        int num = sc.nextInt();
+
+        int[] arr = new int[10];
+
+        int cop = num;
+        while(cop>0){
+            arr[cop%10]++;
+            cop /= 10
+        }
+
+        for(int i=0;i<arr.length;i++){
+            if(arr[i] != 0){
+                System.out.println(i + "的个数为：" + arr[i]);
+            }
+        }
+    }
+}
+```
+
+#### 内存结构分析
+
+堆区：一大块存储空间，用于存放引用类型的数据
+
+- 引用数据类型的变量存在堆区，例如数组
+
+栈区：用于存放程序运行过程中所有的局部变量
+
+- 基本数据类型的变量直接在栈区中声明，只用一个位置
+- 引用类型的变量其在堆区对应的地址存在于栈区
+
+一个数组的声明的过程：
+
+- 先使用`new int[5]`指令在堆区申请一段空间，并记下这个空间的位置，以防空间乱流
+- 再使用`int[] arr`指令在栈区申请一个空间，并命名为arr
+- 使用` = `号进行赋值，把再堆区的位置坐标放到栈区申请的空间中，数组的声明完成
+
+案例：一维数组的增删减改
+
+```java
+//创建一个含有五个元素的数组
+int[] arr = new int[5];
+
+//赋值11，22，33，44给前4个值
+for(int i=0;i<arr.length-1;i++){
+    arr[i] = (i+1)*11;
+}
+
+//输出数组内容
+for(int i=0;i<arr.length;i++){
+    System.out.print(arr[i] + " ");
+}
+System.out.println();
+
+//插入55到第一个位置，其他元素依次后移
+for(int i=arr.length;i>1;i--){
+    arr[i-1] = arr[i-2];
+}
+arr[0] = 55;
+System.out.println(Array.toString[arr]);
+
+//删除第一个元素55，其他元素依次前移
+for(int i=0;i<arr.length;i++){
+    if (i==arr.length-1){
+        arr[i] = 0;
+    }else{
+        arr[i] = arr[i+1];
+    }
+}
+System.out.println(Array.toString[arr]);
+
+//查找是否有元素22，若有则修改为220
+for(int i=0;i<arr.length;i++){
+    if(arr[i]==22){
+        arr[i] = 220;
+    }
+    System.out.print(arr[i] + " ");
+}
+```
+
+#### 数组的优缺点：
+
+优点：速度快
+
+缺点：要求元素类型相同；且空间连续，长度不可改；增删改减可能会移动大量元素，效率低
+
+#### 数组的拷贝
+
+官方提供了一个基本的拷贝功能：arraycope
+
+`System.arraycope(arr,1,brr,0,3);` ：
+
+​	将arr中下标为1开始的三个元素拷贝到brr从0 开始的位置
+
+考点：brr = arr; //这是数组的拷贝吗？
+
+答： 不是，只是把数组arr在堆区的位置信息拷贝给了brr
+
+#### 数组工具类
+
+java.util.Arrays类可以实现对数组中的元素的遍历，查找，排序等操作
+
+| 常用方法                           | 作用                                                 |
+| ---------------------------------- | ---------------------------------------------------- |
+| toString(int[] a)                  | 输出数组中的内容                                     |
+| fill(int[] a , int val)            | 将参数指定元素赋值给数组中所有元素                   |
+| equals(boolean[] a1, boolean[] a2) | 判断两个数组中的元素和位置是否完全相等               |
+| sort(int[] a)                      | 对数组中的元素进行从小到大排序                       |
+| search(int[] a , int key)          | 从数组中查找指定元素的位置，若不存在则返回无效的下标 |
+
+
+
+### 4.2 二维数组
+
+基本概念：多个一维数组组合在一起而形成的数组，二维数组中的每个元素都是一个一维数组
+
+声明方式：`int[][] arr = new int[][];`
+
+#### 二维数组的初始化：
+
+- 动态初始化：
+
+​	`数组类型[][] 数组名称 = new 数据类型[行数][列数]；`
+
+- 静态初始化：
+
+​	`数组类型[][] 数组名称 = {{,},{,}...}；`
+
+#### length 
+
+- 一维数组的length代表的是元素的个数
+
+- 二维数组的length表示的是一维数组的个数，也即行数
+
+#### 案例：输出n行的杨辉三角
+
+```java
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class FourAndFive{
+
+    public static void main(String[] args){
+
+        System.out.println("请输入一个整数：");
+        Scanner sc = new Scanner(System.in);
+        int num = sc.nextInt();
+
+        int[][] arr = new int[num][];
+        
+		//二维数组一般需要配合双重for循环使用
+        for (int i=0;i<num;i++){
+            arr[i] = new int[i+1];
+            for(int j=0;j<=i;j++){
+                if(j==0 || j==i){
+                    arr[i][j] = 1;
+                } else{
+                    arr[i][j] = arr[i-1][j] + arr[i-1][j-1];
+                }
+            }
+        }
+
+        for(int i=0;i<num;i++){
+            for(int j=0;j<=i;j++){
+                System.out.print(arr[i][j] + " ");
+            }
+            System.out.println();
+        }
+    }
+}
+
+```
+

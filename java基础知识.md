@@ -84,7 +84,7 @@ public class VarIOText{
 
 ### 1.5 字节
 
-单个字节共8位，去掉符号位，则有7位，有正负，故为：127 ~ -128
+单个字节共8位，去掉符号位，则有7位，有正负，故为：**127 ~ -128**
 
 ### 1.6 整数类型
 
@@ -724,7 +724,7 @@ for(int i=0;i<arr.length;i++){
         arr[i] = arr[i+1];
     }
 }
-System.out.println(Array.toString[arr]);
+System.out.println(Arrays.toString(arr));
 
 //查找是否有元素22，若有则修改为220
 for(int i=0;i<arr.length;i++){
@@ -745,7 +745,7 @@ for(int i=0;i<arr.length;i++){
 
 官方提供了一个基本的拷贝功能：arraycope
 
-`System.arraycope(arr,1,brr,0,3);` ：
+`System.arraycopy(arr,1,brr,0,3);` ：
 
 ​	将arr中下标为1开始的三个元素拷贝到brr从0 开始的位置
 
@@ -765,7 +765,11 @@ java.util.Arrays类可以实现对数组中的元素的遍历，查找，排序�
 | sort(int[] a)                      | 对数组中的元素进行从小到大排序                       |
 | search(int[] a , int key)          | 从数组中查找指定元素的位置，若不存在则返回无效的下标 |
 
+使用方法：
 
+`import java.util.Arrays;`
+
+`Arrays.toString(arr);`
 
 ### 4.2 二维数组
 
@@ -828,3 +832,94 @@ public class FourAndFive{
 
 ```
 
+## 五、习题
+
+### 5.1 课后习题
+
+1. 编程题 实现双色球抽奖游戏中奖号码的生成，中奖号码由 6 个红球号码和 1 个蓝球号码组成。 其中红球号码要求随机生成 6 个 1~33 之间**不重复**的随机号码。 其中蓝球号码要求随机生成 1 个 1~16 之间的随机号码。 
+
+   ```java
+   import java.util.Random;
+   import java.util.Arrays;
+   
+   public class FourAndFive{
+       public static void main(String[] args){
+           Random ra = new Random();
+           int[] arr = new int[7];
+   
+           for(int i=0;i<arr.length-1;i++){
+               arr[i] = ra.nextInt(33)+1;
+               for (int j=0;j<i;j++){
+                   if (arr[i] == arr[j]){
+                       i--;
+                       break;
+                   }
+               }
+           }
+   
+           arr[6] = ra.nextInt(16)+1;
+           System.out.println(Arrays.toString(arr));
+       }
+   }
+   ```
+
+   
+
+2. 编程题 实现数组扩容。自定义数组长度（用户指定），扩容规则：当已存储元素数量达到总容量的 80%时，扩容到原容量的1.5 倍。 例如，原容量是 10，当输入第 8 个元素时，数组进行扩容，容量从 10 变 15。
+
+   ```java
+   import java.util.Scanner;
+   
+   public class FourAndFive{
+       public static void main(String[] args){
+   
+           System.out.println("请输入一个整数：");
+           Scanner sc = new Scanner(System.in);
+           int num = sc.nextInt();
+   
+           int[] arr = new int[num];
+           int[] brr;
+           System.out.println("数组的长度为：" + arr.length);
+   
+           for (int i=0;i<arr.length;i++){
+               System.out.println("请输入一个整数填充数组：");
+               arr[i] = sc.nextInt();
+               if (i>=arr.length*0.8){
+                   System.out.println("数组长度达到警戒线，将扩容");
+                   brr = new int[arr.length>>1 + arr.length];
+                   System.arraycopy(arr,0,brr,0,i);
+                   arr = brr;
+                   System.out.println("数组的长度为：" + arr.length);
+               }
+           }
+       }
+   }
+   ```
+
+   ### 5.2 笔试题
+
+   1. 设计一套砝码要求能测量出1~100之间的任意重量，请问至少需要多少个砝码，以及每个砝码各个的重量是多少？
+
+      答：七个即可：1，2，4，8，16，32，64。可采用列举法，每一个新增法码的重量都要大于前面砝码重量的和
+
+   2. 简述：&和&&之间的区别
+
+      答：&不止可以用于位运算，同样可以用于逻辑与，两者之间的区别是：&没有短路特性
+
+   3. 简述：i++ 与 ++i的异同
+
+      答：看前文，一个先赋值后运算，一个先运算后赋值。但是i的值一样的
+
+   4. 如何使用最有效率的方法计算2乘以8
+
+      答：使用移位运算符，左移一位是乘以2：2<<3;
+
+   5. 如何在不借助第三个变量的情况下，实现两个整数变量的交换
+
+      答，使用加减法，
+
+      例：`a=1;b=2;`  解：`a = a+b; b=a-b; a=a-b;`
+
+      或使用位运算：
+
+      解：`a=a^b;b=a^b;a=a^b`

@@ -1586,3 +1586,133 @@ public class DirectionEnumTest {
 作用：注解本质上就是代码中的特殊标记，通过这些标记可以在编辑、类加载以及运行时执行指定的处理
 
 语法格式：`访问修饰符 @interface 注解名称{注解成员；}`
+
+说明：
+
+1. 自定义注解自动继承`java.lang.annotation.Annotation`接口
+
+2. 通过@注解名称的方式可以修饰包、类、方法名称、成员变量、构造方法、参数、局部变量的声明等
+
+使用方式：
+
+- 注解体中只有成员变量没有成员方法，而注解的成员变量以“无形参的方法”形式来声明，其方法名定义了该成员变量的名字，其返回值定义了该成员变量的类型
+- 如果注解中只有一个参数成员，建议使用参数名为value，而类型只能是八种基本数据类型、String类型、Class类型、enum类型、Annotation类型
+
+```java
+//声明一个注解
+
+//如果一个注解没有给任何的成员变量，则这样的注解叫做标记注解，或者标识注解
+public @interface MyAnnotation {
+    //声明一个成员变量，其返回值就是成员变量的类型，注意不是抽象方法，而是变量
+    public String value();
+    //同样可以使用default去声明一个成员变量的默认值
+    public int age() default 18;
+}
+
+//------------------------------------------------
+//使用一个注解
+
+//如果注解有变量，需要在使用时给出变量值，格式：成员变量名 = 变量值,....
+@MyAnnotation(value = "hello")
+public class People {
+}
+```
+
+#### 元注解
+
+概念：元注解是可以注解到注解上的注解，或者说元注解是一种基本注解，但是它能够应用到其他的注解上面
+
+种类：@Retention  @Documented  @Target  @Inherited  @Repeatable
+
+#### 元注解@Retention
+
+作用：@Retention应用到一个注解上用于说明该注解的生命周期，取值如下：
+
+- RetentionPolicy.SOURCE：注解只在源码阶段保留，在编译器进行编译时它将被丢弃忽视
+
+- RetentionPolicy.CLASS：注解只会被保留到编译进行的时候，它并不会被加载到JVM中，默认方式。
+- RetentionPolicy.RUNTIME：注解可以保留到程序运行的时候，它会被加载进入到JVM中，所以在程序运行时可以获取到它们
+
+```java
+@Retention(RetentionPolicy.SOURCE) //下面的注解在源代码中有效
+@Retention(RetentionPolicy.CLASS) //下面的注解在字节码阶段都有效，默认方式
+@Retention(RetentionPolicy.RUNTIME) //下面的注解在运行阶段都有效
+public @interface MyAnnotation {}
+```
+
+#### 元注解@Documented
+
+作用：@Documented用于指定被注解将被javadoc工具提取成文档
+
+- 使用javadoc工具可以从程序源代码中抽取类、方法、成员等注释形成一个和源代码配套的API帮助文档，而该工具抽取时默认不包括注解内容
+- 定义为@Documented的注解必须设置Retention值为RUNTIME
+
+#### 元注解@Target
+
+作用：用于指定被修饰的注解能作用与哪些元素的修饰
+
+| 注解修饰                    | 作用                                   |
+| --------------------------- | -------------------------------------- |
+| ElementType.ANNOTATION_TYPE | 可以给一个注解进行注解                 |
+| ElementType.CONSTRUCTOR     | 可以给构造方法进行注解                 |
+| ElementType.FIELD           | 可以给属性进行注解                     |
+| ElementType.LOCAL_VARIABLE  | 可以给局部变量进行注解                 |
+| ElementType.PACAGE          | 可以给一个包进行注解                   |
+| ElementType.PARAMETER       | 可以给一个方法内的参数进行注解         |
+| ElementType.TYPE            | 可以给类型进行注解，比如类、接口、枚举 |
+| ElementType.METHOD          | 可以给方法进行注解                     |
+| ElementType.TYPE_PARAMETER  | 该注解能写在类型变量的声明语句中       |
+| ElementType.TYPE_USE        | 该注解能写在使用类型的任何语句中       |
+
+#### 元注解@Inherited
+
+作用：@Inherited并不是注解本身可以继承，而是说如果一个超类被该注解标记过的注解进行注解时，如果子类没有被任何注解应用时，则子类就继承超类的注解
+
+```java
+@Documented	
+@Inherited	//上阵父子兵
+@Target({ElementType.FIELD,ElementType.TYPE})
+```
+
+#### 元注解@Repeatable
+
+作用：@Repeatable表示自然可重复的含义
+
+```java
+//此注解可以重复使用，不过需要调用一个多参数注解
+@Repeatable(value = ManTypes.class)
+public @interface ManType {
+    String value() default "";
+}
+
+//-----------------------------------
+//一个多参数类型的注解，类型是另一种注解
+public @interface ManTypes {
+    ManType[] value();
+}
+
+//-----------------------------------
+//可以使用多个同样的注解但是不同的信息
+@ManType(value = "a")
+@ManType(value = "b")
+public class Man {
+}
+```
+
+#### 常见的预制注解
+
+定义：就是java语言自身提供的注解
+
+| 注解              | 作用                                                   |
+| ----------------- | ------------------------------------------------------ |
+| @author           | 标明开发该类模块的作者，多个作者之间使用，分割         |
+| @version          | 表明该类模块的版本                                     |
+| @see              | 参考转向，也就是相关主题                               |
+| @since            | 从哪个版本开始增加                                     |
+| @param            | 对方法中某参数的说明，如果没有参数就不能写             |
+| @return           | 对方法返回值的说明，如果方法的返回值类型是void就不可写 |
+| @exception        | 对方法可能抛出的异常进行说明                           |
+| @Override         | 限定重写父类方法，该注解只能用于方法                   |
+| @Deprecated       | 用于表示所修饰的元素已过时                             |
+| @SuppressWarnings | 抑制编译器警告                                         |
+

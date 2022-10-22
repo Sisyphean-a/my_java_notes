@@ -1716,3 +1716,51 @@ public class Man {
 | @Deprecated       | 用于表示所修饰的元素已过时                             |
 | @SuppressWarnings | 抑制编译器警告                                         |
 
+### 面试题
+
+1. 请问构造器能否被重写？为什么
+
+   答：不能，构造方法是不能被继承的，所以不能被重写，但可以被重载
+
+2. Overload和Override的区别是什么，参数列表相同但返回值类型不同能重载吗？
+
+   答：需注意：重载也可以用在父子类中。。。重载与参数列表和返回值类型无关
+
+3. 使用final关键字修饰一个引用变量时，请问是引用不能变还是引用的对象不能变呢？   
+
+   答：引用不能变，即引用对应的栈区存放的地址不能变
+
+4. 简述复制引用和复制对象的区别
+
+   答：一个复制的是地址，一个复制的是值
+
+5. 阅读下列程序并分析执行结果：
+
+   ```java
+   public class Base{
+       private String baseName = "base";
+       
+       public Base(){
+           callName();
+       }
+       
+       public void callName(){
+           System.out.println(baseName);
+       }
+   }
+   
+   //----------------------------------------
+   class Sub extends Base{
+       private String baseName = "sub";
+       
+       public void callName(){
+           System.out.println(baseName);
+       }
+       
+       public static void main(String[] args){
+           Base b = new Sub();
+       }
+   }
+   ```
+
+   答：首先执行Base b = new Sub()；即多态，这里首先创建子类对象，而子类对象会先在内存区域内部创建一个父类对象，即会执行父类的初始化代码，baseName="base"。创建父类对象必然会调用父类构造方法，父类构造方法中只有一条：callName()。这句话会调用callName方法，而父类的此方法被子类重写了，所以会调用子类的callName，但是子类的baseName还没有定义，所以会返回默认值null，即结果为：null

@@ -1,3 +1,5 @@
+[TOC]
+
 ## 常用类的概述和使用
 
 ### Object类
@@ -829,18 +831,18 @@ sb.reverse();    // ufixix iH
 
 - 既然StringBuilder类的对象本身就可以修改，为何还要有返回值
 
-  答：为了可以连续调用：`sb.reverse().delete(8).append("a");`
+    答：为了可以连续调用：`sb.reverse().delete(8).append("a");`
 
 - 如何实现StringBuilder和String类型的互相转换
 
-  ```java
-  String str = sb.toString();		//使用toString即可获取
-  StringBuilder sb2 = new StringBuilder(str);		//使用构造方法即可
-  ```
+    ```java
+    String str = sb.toString();		//使用toString即可获取
+    StringBuilder sb2 = new StringBuilder(str);		//使用构造方法即可
+    ```
 
 - String、StringBuilder、StringBuffer之间谁的效率高
 
-  答：StringBuilder > StringBuffer > String
+    答：StringBuilder > StringBuffer > String
 
 ### Java8之前的日期相关类(熟悉)
 
@@ -943,31 +945,31 @@ System.out.println(sdf.format(time2));
 ```
 
 - 笔试题  : 既然Calendar是一个抽象类,为什么上面的方法可以获取Calendar类型的引用哪
-  答:由源码可知,返回的并不是Calendar类型,而是Calendar类的子类的对象,形成了多态
+    答:由源码可知,返回的并不是Calendar类型,而是Calendar类的子类的对象,形成了多态
 
 #### 多态的使用场合
 
 - 通过方法的参数传递形成多态
 
-  ```java
-  public static void draw(Shape s){
-      s.show();
-  }
-  ```
+    ```java
+    public static void draw(Shape s){
+        s.show();
+    }
+    ```
 
 - 在方法体中直接使用多态的语法格式
 
-  ```java
-  Account acc = new FixedAccount();
-  ```
+    ```java
+    Account acc = new FixedAccount();
+    ```
 
 - 通过方法的返回值类型形成多态
 
-  ```java
-  Calendar getInstance(){
-      return new GregorianCalendar(zone,aLocale);
-  }
-  ```
+    ```java
+    Calendar getInstance(){
+        return new GregorianCalendar(zone,aLocale);
+    }
+    ```
 
 ### Java8之后的日期相关类(熟悉)
 
@@ -1025,3 +1027,516 @@ System.out.println(sdf.format(time2));
 | LocalDateTime **minusYears**(long years)                     | 减去参数指定的年                              |
 | minusMonths ; minusDays ;                                    | 减去参数指定的月 , 天                         |
 | minusHours ; minusMinutes ; minusSeconds ;                   | 减去时分秒                                    |
+
+```java
+//获取当前日期
+LocalDate now = LocalDate.now(); //2021-10-19
+//获取当前时间
+LocalTime now1 = LocalTime.now();//22:16:52.504320100
+//获取当前时间日期
+LocalDateTime now2 = LocalDateTime.now();//2022-10-19T22:16:52.504320100
+
+//使用参数指定的日期时间获取对象
+LocalDateTime of = LocalDateTime.of(2008, 8, 8, 20, 8, 8);
+System.out.println(of); //自动调用toString方法
+System.out.println("获取到的年是: " + of.getYear());
+
+//更改日期时间,这里更改年份.不改变原值,返回新值
+LocalDateTime localDateTime = of.withYear(1998);
+
+//增加日期时间,这里更改年份.不改变原值,返回新值
+LocalDateTime localDateTime1 = localDateTime.plusDays(2);
+
+//减少时间,这里更改月份.不改变原值,返回新值
+LocalDateTime localDateTime2 = localDateTime1.minusHours(12);
+```
+
+#### Instant类
+
+概念：java.time.Instant类主要用于描述瞬间的时间点信息
+
+常用的方法
+
+| 方法声明                                     | 功能介绍                                                   |
+| -------------------------------------------- | ---------------------------------------------------------- |
+| static Instant now()                         | 从系统时钟上获取当前时间                                   |
+| OffsetDateTime atOffset(ZoneOffset offset)   | 将此瞬间与偏移量组合以创建偏移时间                         |
+| static Instant ofEpochMilli(long epochMilli) | 根据参数指定的毫秒数来构造对象，参数为距离1970年整的毫秒数 |
+| long toEpochMilli()                          | 获取距离1970年整的毫秒数                                   |
+
+```java
+// 获取到的时间，是本初子午线的时间，与系统时间相差八小时
+Instant now = Instant.now(); //2022-10-22T07:32:23.509967500Z
+
+// 加上偏移量创建时间 , 2022-10-22T15:32:23.509967500+08:00 
+OffsetDateTime odt = now.atOffset(ZoneOffset.ofHours(8));
+
+// 获取距离1970年的毫秒数
+long l = now.toEpochMilli();
+
+// 根据偏移毫秒数获取到的时间，应与当前时间相同
+Instant instant = Instant.ofEpochMilli(l);
+```
+
+#### DateTimeFormatter类
+
+概念：java.time.format.DateTimeFormatter类主要用于格式化和解析日期
+
+常用的方法：
+
+| 方法声明                                           | 功能介绍                       |
+| -------------------------------------------------- | ------------------------------ |
+| static DateTimeFormatter ofPattern(String pattern) | 根据参数指定的模式来获取对象   |
+| String format(TemporalAccessor temporal)           | 将参数指定日期时间转换为字符串 |
+| TemporalAccessor parse(CharSequence text)          | 将参数指定字符串转换为日期时间 |
+
+```java
+// 1. 获取当前时间日期并打印
+LocalDateTime now = LocalDateTime.now();
+
+// 2. 创建一个DateTimeForamtter类型的对象
+DateTimeFormatter dtf = DateTimeFormatter.ofPattern("y-M-d H-m-s");
+
+// 3. 实现日期时间到字符串类型的转换并打印
+String format = dtf.format(now);
+
+// 4. 实现字符串类型到时间类型的转换并打印
+TemporalAccessor parse = dtf.parse(format);
+```
+
+## 集合类库
+
+```mermaid
+graph TD
+a(Collection接口);b(List接口);c(Queue接口);d(Set接口)
+a -->b; a-->c ; a-->d;
+e(ArrayList类);f(LinkedList类);g(Stack类);h(Vector类)
+b -->e;b-->f;b-->g;b-->h;c-->f;
+i(HashSet类);j(TreeSet类);k(LinkedHashSet类)
+d-->i;d-->j;i-->k;
+A(Map接口);B(HashMap类);C(TreeMap类);D(Hashtable类);E(LinkedHashMap类);F(Properties类);
+A-->B;A-->C;A-->D;
+B-->E;D-->F
+```
+
+### Collection集合（重点）
+
+概念：java.util.Collection接口是List接口，Queue接口以及Set接口的父接口，因此该接口里定义的方法既可用于操作List集合，也可用于操作Queue集合和Set集合
+
+#### 常用方法（练熟）
+
+| 方法声明                                    | 功能介绍                                        |
+| ------------------------------------------- | ----------------------------------------------- |
+| boolean **add**(E e)                        | 向集合中添加对象                                |
+| boolean **addAll**(Collection<? extend E>c) | 用于将参数指定集合c中的所有元素添加到当前集合中 |
+| boolean **contains**(Object o)              | 判断是否包含指定对象                            |
+| boolean **containsAll**(Collection<?> c)    | 判断是否包含参数指定的所有对象                  |
+| boolean **retainAll**(Collection<?> c)      | 保留当前集合中存在且参数集合中存在的所有对象    |
+| boolean **remove**(Object o)                | 从集合中删除对象                                |
+| boolean **removeAll**(Collection<?> c)      | 从集合中删除参数指定的所有对象                  |
+| void **clear**()                            | 清空集合                                        |
+| int **size**()                              | 返回包含对象的个数                              |
+| boolean **isEmpty**()                       | 判断是否为空                                    |
+| boolean **equals**(Object o)                | 判断是否相等                                    |
+| int **hashCode**()                          | 获取当前集合的哈希码值                          |
+| Object[] **toArray**()                      | 将集合转换为数组                                |
+| Iterator<E> **iterator**()                  | 获取当前集合的迭代器                            |
+
+```java
+//------------------元素的填加------------------
+Collection c1 = new ArrayList();
+c1.add(4); //自动装箱机制
+c1.add("hello"); //常量池机制
+c1.add(new People("K",18));
+
+Collection c2 = new ArrayList();
+c2.add(8);
+c2.add("world");
+// 需注意，addAll会把元素一个一个传入，而add则只会传入一个参数。
+c1.addAll(c2);
+
+//-----------------元素的判断--------------------
+c1.contains("hello"); //true
+//contains的判断机制{return (a == b) || (a != null && a.equals(b)}
+// 即：1. 两者地址相同。 2. 调用对象的equals方法与之相同.
+// 如果People方法中没有重写equals，则调用父类Object的equals方法，通过地址判断
+// 如果希望能够进行值的判断，则需在People中重写equals方法
+c1.contains(new People("K", 18)); //false
+
+//判断集合c1中是否包含集合c2的所有元素
+c1.containsAll(c2); //true
+
+//判断两个集合是否相等
+c1.equals(c2); //false
+
+//---------------------元素取交集------------------
+boolean b1 = c1.retainAll(c2); // 如果值为true，则表示集合发生了改变
+System.out.println(b1);
+
+//----------------------删除元素------------------
+// 删除单个元素
+boolean remove = c1.remove(4); // 若为true，则表示删除成功
+System.out.println(remove);
+
+// 删除多个元素
+c1.removeAll(c2); //若被删除的元素不存在，返回false
+
+//---------------------其他方法的使用---------------
+// 获取集合的长度
+int size = c1.size();
+// 判断集合是否为空
+boolean empty = c1.isEmpty();
+// 清空集合
+c1.clear();
+
+//-----------------集合与数组的相互转换----------------
+Collection c3 = new ArrayList();
+c3.add(1);
+c3.add(2);
+c3.add(3);
+Object[] o3 = c3.toArray();
+System.out.println(Arrays.toString(o3)); //[1, 2, 3]
+// 集合到数组的转换
+Collection c4 = Arrays.asList(o3);
+System.out.println(c4); //[1, 2, 3
+```
+
+### Iterator接口（重点）
+
+概念：
+
+-   java.util.Iterator接口主要用于描述迭代器对象，可以遍历Collection集合中的所有元素
+-   java.util.Collection接口继承Iterator接口，因此所有实现Collection接口的实现类都可以使用该迭代器对象
+
+#### 常用的方法
+
+| 方法声明          | 功能介绍                            |
+| ----------------- | ----------------------------------- |
+| boolean hasNext() | 判断集合中是否有可以迭代/访问的元素 |
+| E next()          | 用于取出一个元素并指向下一个元素    |
+| void remove()     | 用于删除访问到的最后一个元素        |
+
+```java
+Collection c1 = new ArrayList();
+c1.add("one");
+c1.add(2);
+c1.add(new People("K",18));
+
+// 遍历方式一，自动调用toString方法，实际输出的是一个String类型的整体
+System.out.println(c1);
+
+// 遍历方法二，使用迭代器来遍历集合中的所有元素
+// 获取一个遍历对象，即把String类型转换为迭代器iterator对象
+Iterator i1 = c1.iterator();
+
+// 迭代器本质上是一个指向,使用hasNext方法可以获取当前指向是否有内容
+// 使用next方法获取当前元素的值并指向下一个元素
+while (i1.hasNext()){
+    Object obj = i1.next();
+}
+
+//-------案例：使用迭代器模拟toString方法的打印效果----------
+// 迭代器已经走到尽头，所以需要重置迭代器
+i1 = c1.iterator();
+StringBuilder sb = new StringBuilder();
+sb.append("[");
+while (i1.hasNext()){
+    sb.append(i1.next());
+    if (i1.hasNext()){
+        sb.append(", ");
+    }
+}
+sb.append("]");
+
+// 使用remove删除指定元素
+// 需注意，但使用迭代器时，是无法使用集合.remove方法的
+// 因为这会导致迭代结果的不确定性
+i1 = c1.iterator();
+while (i1.hasNext()){
+    if ("one".equals(i1.next())){
+        i1.remove();
+    }
+}
+```
+
+### for each循环（重点）
+
+概念：Java5推出的增强型for循环语句，可以应用数组和集合的遍历，是经典迭代的“简化版”
+
+语法格式：`for(元素类型 变量名 ： 数组/集合名称){循环体;}`
+
+```java
+Collection c1 = new ArrayList();
+c1.add("one");
+c1.add(2);
+c1.add(new People("K",18));
+
+for (Object obj : c1){
+    System.out.print(obj + "  ");
+}
+
+int[] arr = {1,2,3,4,5}
+for (int i : arr){
+    System.out.print(i + "  ");
+    i = 100;    //修改局部变量i的数值，并不是修改数组中元素的数值
+}
+```
+
+### List集合（重中之重）
+
+#### 概念：(对标列表)
+
+-   java.util.List集合是Collection集合的子集合，该集合中允许有重复的元素并且有先后放入次序
+-   该集合的主要实现类有：ArrayList类，LinkedList类，Stack类，Vector类
+-   其中ArrayList类的底层是采用动态数组进行数据管理的，支持下标访问，增删元素不方便
+-   其中LinkedList类的底层是采用双向链表进行数据管理的，访问不方便，增删元素方便
+-   可以认为ArrayList和LinkdList的方法在逻辑上完全一样，只是在性能上有一定的差别，ArrayList更适合于访问，而LinkdList更适合于插入和删除；在性能要求不是特别苛刻的情况下可以忽略这个差别
+-   其中Stack类的底层是采用动态数组进行数据管理的，该类主要用于描述一种具有后进先出特征的数据结构，叫做栈(last in first out LIFO)
+-   其中Vector类的底层是采用动态数组进行数据管理的，该类与ArrayList类相比属于线程安全的类，效率比较低 ，以后的开发中基本不用
+
+#### 常用方法
+
+| 方法声明                                            | 功能介绍                 |
+| --------------------------------------------------- | ------------------------ |
+| void add(int index , E element)                     | 向集合中指定位置添加元素 |
+| boolean addAll(int index, Collection<?extends E> c) | 向集合中添加所有元素     |
+| E get(int index)                                    | 向集合中获取指定位置元素 |
+| int indexOf(Object o)                               | 查找参数指定的对象       |
+| int lastIndexOf(Object o)                           | 反向查找参数指定的对象   |
+| E set(int index, E element)                         | 修改指定位置的元素       |
+| E remove(int index)                                 | 删除指定位置的元素       |
+| List<E> subList(int fromIndex , int toIndex)        | 用于获取子List           |
+
+```java
+List l = new LinkedList();
+
+//-----------------增-------------------
+l.add("hello");
+l.add(3);
+l.add("hello");
+System.out.println(l);
+
+//----------------案例------------------
+// 使用List的get方法模拟toString方法
+StringBuilder sb = new StringBuilder();
+sb.append("[");
+for (int i=0;i<l.size();i++) {
+    Object obj = l.get(i);
+    if (i == l.size()-1) {
+        sb.append(obj).append("]");
+    } else {
+        sb.append(obj).append(",").append(" ");
+    }
+}
+System.out.println(sb);
+
+//-----------------查-------------------
+// 通过索引查找元素
+int index1 = l.indexOf("hello"); // 0
+int index2 = l.lastIndexOf("hello"); // 2
+
+//-----------------改-------------------
+// 元素的修改
+// 需注意，元素添加到集合中后就变成了Object类型，需要强制类型转换
+// 返回值是被修改了的元素
+String st = (String) l.set(2, "world");
+System.out.println("被修改的元素是：" + st);
+System.out.println("修改后的列表是：" + l);
+
+//-----------------删-------------------
+// 使用索引进行删除
+l.remove(1);
+
+
+// 获取子集合，使用subList
+// 需注意，子集合和当前集合使用同一个内存空间，一个改另一个也改
+List sub = l.subList(0, 1);
+```
+
+### Queue集合（重点）
+
+概念：
+
+-   java.util.Queue集合是Collection集合的子集合，与List集合属于平级集合
+-   该集合主要用于描述具有先进先出特征的数据结构，叫做队列(first in first out FIFO)
+-   该集合的主要实现类是LinkedList类，因为该类在增删方面比较有优势
+
+常用的方法：
+
+| 方法声明           | 功能介绍                                   |
+| ------------------ | ------------------------------------------ |
+| boolean offer(E e) | 将一个对象添加至队尾，若添加成功则返回true |
+| E poll()           | 从队首删除并返回一个元素                   |
+| E peek()           | 返回队首的元素（但并不删除）               |
+
+### 泛型机制（熟悉）
+
+#### 概念：
+
+-   通常情况下集合中可以存放不同类型的对象，是因为将所有对象都可以看作Object类型放入的，因此从集合中取出的类型也是Object类型，为了表达该元素真实的数据类型，则需要强制类型转换，而强制类型转换可能引发类型转换异常
+-   为了避免上述错误的发生，增加了泛型机制，用于明确要求该集合中可以存放的元素类型，若放入其他类型的元素则编译报错
+-   泛型只在编译时期有效，在运行时期不区分是什么类型
+
+格式：`集合<数据类型> 名称 = new 集合类型<>();`
+
+#### 原理
+
+泛型的本质就是参数化类型，也就是让数据类型作为参数传递，其中E相当于形式参数负责占位，而使用集合时<>中的数据类型相当于实际参数，用于给形式参数E进行初始化，从而使得集合中所有的E被实际参数替换，由于实际参数可以传递各种各样广泛的数据类型，因此得名为泛型
+
+#### 自定义泛型接口
+
+泛型接口和普通接口的区别就是后面添加了类型参数列表，可以有多个类型参数，如：<E,t,..>等
+
+```java
+//----------------------泛型的定义--------------------
+// 这里的泛型了类似于一个形参，不过传入的是一个数据类型
+public class Person <T>{
+    private String name;
+    private int age;
+    // 这里的T的使用方式和int,String之类的没有区别
+    private T gender;
+
+    public Person(){}
+    public Person(String name, int age, T gender) {
+        this.name = name;
+        this.age = age;
+        this.gender = gender;
+    }
+}
+
+//----------------------泛型的使用--------------------
+public class PersonTest {
+    public static void main(String[] args) {
+        
+        // 可以不指定泛型类型，默认为Object类
+        Person p1 = new Person("K",18,"男");
+        // 可以指定泛型类型，使用方式和放入实参的过程相似
+        Person<String> p2 = new Person<>();
+    }
+}
+```
+
+#### 自定义泛型类
+
+-   泛型类和普通类的区别就是类名后面添加了类型参数列表，可以有多个类型参数，如<E,t,..>等
+-   实例化泛型类时应该指定具体的数据类型，并且是应用数据类型而不是基本数据类型
+-   父类有泛型，子类可以选择保留泛型也可以选择指定泛型类型
+-   子类除了指定或保留父类的泛型，还可以增加自己的泛型
+
+```java
+//不保留泛型并且没有指定类型，此时Person类中的T默认为Object类型
+public class SubPerson extends Person{}
+
+//不保留泛型但是指定了泛型类型，此时Person中的T被指定为了String类型
+public class SubPerson extends Person<String>{}
+
+//保留父类的泛型，可以在构造对象时来指定T的类型
+public class SubPerson<T> extends Person<T>{}
+
+//保留父类的泛型，并在子类中增加新的泛型
+public class SubPerson<T,T1> extends Person<T>{}
+```
+
+#### 自定义泛型方法
+
+概念：泛型方法就是我们输入参数的时候，输入的是泛型参数，而不是具体的参数，我们在调用这个泛型方法的时候需要对泛型参数进行实例化
+
+格式：`[访问权限] <泛型> 返回值类型 方法名([泛型标识 参数名称]){方法体；}`
+
+在静态方法中使用泛型参数的时候，需要我们把静态方法定义为泛型方法 
+
+```java
+// 此方法不是泛型方法，同时不能使用static修饰
+// 因为泛型只有在new对象时才能声明类型
+public T getGender() {
+    return gender;
+}
+
+// 泛型方法
+public static <A> void printArr(A[] arr){
+    for (A a: arr){
+        System.out.println(a);
+    }
+}
+```
+
+#### 泛型在继承上的体现
+
+如果B是A的一个子类或子接口，而G是具有泛型声明的类或接口，则G<B>并不是G<A>的子类型。
+
+例如：String 是Object的子类，但是List<String>并不是List<Object>的子类
+
+#### 通配符的使用
+
+有时候我们希望传入的类型在一个指定的范围内，此时就可以使用泛型通配符
+
+如：之前传入的类型要求为Integer类型，但是后来的业务需要Integer的父类Number类也可以传入
+
+泛型中有三种通配符形式：
+
+-   <?>无限制通配符：表示我们可以传入任意类型的参数
+-   <? extends E>表示类型的上界是E，只能是E或者是E的子类
+-   <? super E>表示类型的下界是E，只能是E或者是E的父类
+
+```java
+//--------Animal类是Dog的父类---------------
+List<Animal> l1 = new LinkedList<>();
+List<Dog> l2 = new LinkedList<>();
+
+// 类型之间不具备父子管理，无法赋值
+//l1 = l2;
+
+// 1. 使用通配符作为公共父类，
+List<?> l3 = new LinkedList<>();
+l3 = l1;   //可以方法任意类型到List<?>类型的转换
+l3 = l2;
+
+//  向公共父类中获取元素或者添加元素
+//l3.add(new Animal());   //error,不可以添加任何元素
+Object o = l3.get(0);      //可以获取元素, 获取到的全部是Object类型
+
+// 2. 使用有限制的通配符作为公共父类, 限制了最高类
+List<? extends Animal> l4 = new LinkedList<>();
+// 无法添加元素，但是可以获取元素，但元素最高只能是Animal类型
+Animal animal = l4.get(0);
+
+// 3. 使用有限制的通配符作为公共父类，限制了最低类
+List<? super Animal> l5 = new LinkedList<>();
+// 可以添加元素，但不能填超过Animal类的层级，例如Object类
+// 可以获取元素，获取到的元素类型为Object类
+```
+
+### Set集合（熟悉）
+
+#### 概念(对标元组)
+
+-   java.util.Set集合是Collection集合的子集合，与List集合平级
+-   该集合中元素没有先后放入次序，且不允许重复
+-   该集合的主要实现类是：HashSet类和TreeSet类以及LinkedHashSet类
+-   HashSet类的底层是采用哈希表进行数据管理
+-   TreeSet类的底层是采用红黑树进行数据管理
+-   LinkedHashSet类与HashSet类的不同之处在于内部维护了一个双向链表，记录了元素的先后顺序，便于迭代
+
+```java
+public static void main(String[] args) {
+    Set<String> s1 = new HashSet<>();
+    s1.add("two");  //true
+    s1.add("two");  //false Set不允许重复
+}
+```
+
+#### 常用的方法
+
+与Collection方法一致
+
+#### 元素放入HashSet集合的原理
+
+-   使用元素调用hashCode方法获取对应的哈希码值，再由某种哈希算法计算出该元素在数组中的索引位置
+-   若该位置没有元素，则该元素直接放入即可
+-   若该元素有元素，则使用新元素与已有元素依次比较哈希值，若哈希值不相同，则将该元素直接放入
+-   若新元素与已有元素的哈希值相同，则使用新元素调用equals方法与已有元素依次比较
+-   若相等则添加元素失败，否则将元素直接放入即可
+
+思考：为什么要求重写equals方法后要重写hashCode方法
+
+解析：当两个元素调用equals方法相等时证明这两个元素相同，重写hashCode方法后保证这两个元素得到的哈希码值相同，由同一个哈希算法生成的索引位置相同，此时只需要与该索引位置已有元素比较即可，从而提高效率并避免重复元素的出现

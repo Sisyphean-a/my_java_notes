@@ -1198,7 +1198,7 @@ Object[] o3 = c3.toArray();
 System.out.println(Arrays.toString(o3)); //[1, 2, 3]
 // 集合到数组的转换
 Collection c4 = Arrays.asList(o3);
-System.out.println(c4); //[1, 2, 3
+System.out.println(c4); //[1, 2, 3]
 ```
 
 ### Iterator接口（重点）
@@ -1296,16 +1296,16 @@ for (int i : arr){
 
 #### 常用方法
 
-| 方法声明                                            | 功能介绍                 |
-| --------------------------------------------------- | ------------------------ |
-| void add(int index , E element)                     | 向集合中指定位置添加元素 |
-| boolean addAll(int index, Collection<?extends E> c) | 向集合中添加所有元素     |
-| E get(int index)                                    | 向集合中获取指定位置元素 |
-| int indexOf(Object o)                               | 查找参数指定的对象       |
-| int lastIndexOf(Object o)                           | 反向查找参数指定的对象   |
-| E set(int index, E element)                         | 修改指定位置的元素       |
-| E remove(int index)                                 | 删除指定位置的元素       |
-| List<E> subList(int fromIndex , int toIndex)        | 用于获取子List           |
+| 方法声明                                                | 功能介绍                 |
+| ------------------------------------------------------- | ------------------------ |
+| void **add**(int index , E element)                     | 向集合中指定位置添加元素 |
+| boolean **addAll**(int index, Collection<?extends E> c) | 向集合中添加所有元素     |
+| E **get**(int index)                                    | 向集合中获取指定位置元素 |
+| int **indexOf**(Object o)                               | 查找参数指定的对象       |
+| int **lastIndexOf**(Object o)                           | 反向查找参数指定的对象   |
+| E **set**(int index, E element)                         | 修改指定位置的元素       |
+| E **remove**(int index)                                 | 删除指定位置的元素       |
+| List<E> **subList**(int fromIndex , int toIndex)        | 用于获取子List           |
 
 ```java
 List l = new LinkedList();
@@ -1535,8 +1535,137 @@ public static void main(String[] args) {
 -   若该位置没有元素，则该元素直接放入即可
 -   若该元素有元素，则使用新元素与已有元素依次比较哈希值，若哈希值不相同，则将该元素直接放入
 -   若新元素与已有元素的哈希值相同，则使用新元素调用equals方法与已有元素依次比较
--   若相等则添加元素失败，否则将元素直接放入即可
+-   若相等则添加元素失败
 
 思考：为什么要求重写equals方法后要重写hashCode方法
 
 解析：当两个元素调用equals方法相等时证明这两个元素相同，重写hashCode方法后保证这两个元素得到的哈希码值相同，由同一个哈希算法生成的索引位置相同，此时只需要与该索引位置已有元素比较即可，从而提高效率并避免重复元素的出现
+
+#### TreeSet集合的概念
+
+-   二叉树主要指每个节点最多只有两个子节点的树形结构
+-   有序二叉树：
+    -   左子树中的任意节点元素都小于根节点元素值
+    -   右子树中的任意节点元素都大于根节点元素值
+    -   左子树和右子树的内部也遵循上述规则
+-   由于TreeSet集合的底层采用红黑树进行数据的管理，但有新元素插入到TreeSet集合时，需要使用新元素与集合中已有的元素一次比较来确定新元素的合理位置
+-   比较元素的规则：
+    -   使用自然排序规则进行比较排序，让元素类型实现java.lang.Comparable接口
+    -   使用比较器规则进行比较并排序，构造TreeSet集合时传入java.util.Comparator接口
+-   自然排序的规则比较单一，而比较器的规则比较多元化，而且比较器优先于自然排序
+
+```java
+//------------------使用Comparable接口------------------- 
+//若希望在TreeSet集合中插入自己的类，则需要实现对应的接口
+public class Student implements Comparable<Student>{
+    private String name;
+    private int age;
+    
+    @Override	//需要重写此方法，不然无法进行判断
+    public int compareTo(Student o) {
+       int ia = this.getName().compareTo(o.getName());
+       return ia != 0 ? ia : this.getAge() - o.getAge();
+    }
+}
+//-------------------------------------------------------
+Set<Student> s = new TreeSet<>();
+s.add(new Student("k",34));
+
+//------------------使用Comparator接口------------------- 
+//一：准备一个比较器对象作为参数传递给构造方法
+//使用了匿名内部类
+Comparator<Student> cpt = new Comparator<>(){
+    @Override
+    public int compara(Student o1 , Student o2){
+        return o1.getAge() - o2.getAge();
+    }
+}
+
+// 二：使用lambda表达式： （参数列表） -> {方法体}  
+Comparator<Student> cpt = (Student o1,Student 02) -> {return o1.getAge()-o2.getAge();}
+//-------------------------------------------
+Set<Student> s2 = new TreeSet<>(cpt);
+```
+
+### Map集合（重点）
+
+#### 概念（等效于字典）
+
+-   java.util.Map<K,V>集合中存放的基本单位是：键值对
+-   集合中的key不允许重复
+-   HashMap类的底层采用哈希表进行数据管理
+-   TreeMap类的底层采用红黑树进行数据管理
+-   LinkedHashMap类与HashMap类的不同之处在于内部维护了一个双向链表，便于迭代
+-   Hashtable是古老的Map实现类，与HashMap类相比属于线程安全的类，不允许出现null
+-   Properties类是Hashtable类的子类，该对象用于处理属性文件，<String,String>
+-   Map集合是面向查询优化的数据类型，在大数据量情况下有着优良的查询性能
+
+#### 常用的方法
+
+| 方法声明                                | 功能介绍                                                     |
+| --------------------------------------- | ------------------------------------------------------------ |
+| V **put**(K key , V value)              | 将Key-Value对存入Map，若集合中已经包含该Key，则替换Key所对应的Value，返回值为该Key原本Value，若没有返回null |
+| V **get**(Object key)                   | 返回与参数Key所对应的Value对象，如果不存在返回null           |
+| boolean **containsKey**(Object Key)     | 判断集合中是否包含指定的key                                  |
+| boolean **comtainsValue**(Object value) | 判断集合中是否包含指定的value                                |
+| V **remove**(Object key)                | 根据参数指定的key进行删除                                    |
+| Set<k> **keySet**()                     | 返回此映射中包含的键的Set视图                                |
+| Collection<V> **values**()              | 返回此映射中包含的值得Set视图                                |
+| Set<Map,Entry<K,V>> **entrySet**()      | 返回此映射中包含的映射的Set视图                              |
+
+```java
+public static void main(String[] args) {
+    Map<String,String> map = new HashMap<>();
+    System.out.println(map);
+
+    // 增与改
+    map.put("a","A");
+    map.put("b","B");
+    map.put("c","3");
+    map.put("c","C");
+
+    // 查与删
+    map.containsKey("c");
+    map.containsValue("C");
+    map.remove("c");
+
+    // 获取Set视图
+    Set<String> s1 = map.keySet();
+    for (String s : s1){
+        System.out.print(s + " ");
+    }
+
+    Collection<String> s2= map.values();
+    for (String s : s2){
+        System.out.print(s + " ");
+    }
+
+    Set<Map.Entry<String, String>> s3 = map.entrySet();
+    for (Map.Entry<String, String> s : s3){
+        System.out.print("\n" + s);
+    }
+}
+```
+
+### Collections类
+
+概念：java.util.Collections类主要提供了对集合操作或者返回集合的静态方法
+
+#### 常用的方法
+
+| 方法声明                                                     | 功能介绍                                       |
+| ------------------------------------------------------------ | ---------------------------------------------- |
+| static <T extends Object & Comparable<? super T>> T **max**(Collection<?extends T>coll) | 根据元素的自然顺序返回给定集合的最大元素       |
+| static <T> T **max**(Collection<? extends T>coll, Comparartor<? super T>comp) | 根据指定比较器引发的顺序返回给定集合的最大元素 |
+| static <T extends Object & Comparable<?super T>> T **mirr**(Collection<? extends T>coll) | 根据元素的自然顺序返回给定集合的最小元素       |
+| static <T> T **min**(Collection<?extends T>coll , Comparator<? super T>comp) | 根据指定比较器引发的顺序返回给定集合的最小元素 |
+| static <T> void **copy**(List<? super T> dest , List<? extends T> src) | 将一个列表中的所有元素复制到另一个列表中       |
+
+| 方法声明                                                     | 功能介绍                                   |
+| ------------------------------------------------------------ | ------------------------------------------ |
+| static void **reverse**(List<?>list)                         | 反转指定列表中的元素的顺序                 |
+| static void **shuffle**(List<?> list)                        | 使用默认的随机源随机置换指定的列表         |
+| static <T extends Comparable<? super T>> void **sort**(List<T> list) | 根据其元素的自然顺序将指定列表按升序排序   |
+| static <T> void **sort**(List<T> list , Comparator<? super T>c) | 根据指定比较器指定的顺序对指定列表进行排序 |
+| static void **swap**(List<?>list , int i ,int j)             | 交换指定列表中指定位置的元素               |
+

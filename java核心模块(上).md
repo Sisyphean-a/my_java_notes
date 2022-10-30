@@ -72,7 +72,7 @@
 
 作用：用于获取调用对象的字符串形式
 
-声明：String toString()
+声明：`String toString()`
 
 说明：
 
@@ -232,7 +232,7 @@ SIZE，BYTES，TYPE ，都对应的是Double类型的
 | static Double **valueOf**(double d)     | 根据传入浮点数据得到Double类型对象   |
 | boolean **equals**(Object obj)          | 比较调用对象与参数指定的对象是否相等 |
 | String **toString**()                   | 返回描述调用对象数值的字符串形式     |
-| Static double **parseDouble**(String s) | 将字符串类型转换为double类型并返回   |
+| static double **parseDouble**(String s) | 将字符串类型转换为double类型并返回   |
 | boolean **isNaN**()                     | 判断调用对象的数值是否为非数字       |
 
 ```java
@@ -313,6 +313,8 @@ System.out.println("转为小写：" + Character.toLowerCase(c1));
 
   调用包装类的parseXxx方法即可
 
+<img src="./../../Documents/Xmind/Object类.png" alt="Object类" style="zoom:80%;" />
+
 ### 数学处理类
 
 #### Math类
@@ -340,6 +342,8 @@ System.out.println("参数四舍五入后：" + Math.round(5.888));//6
 System.out.println("参数平方根：" + Math.sqrt(4));    //2.0
 System.out.println("返回一个0~1随机数：" + Math.random());
 ```
+
+<img src="./assets/Math类.png" alt="Math类" style="zoom:50%;" />
 
 #### BigDecimal类
 
@@ -372,8 +376,8 @@ System.out.println("除法：" + bd1.divide(bd2, RoundingMode.HALF_DOWN));
 | ---------------------------------------------------- | ------------------------------ |
 | **BigInteger**(String val)                           | 根据参数指定的字符串来构造对象 |
 | BigInteger **add** (BigInteger val)                  | 用于实现加法运算               |
-| BigInteger **subtract**(Biginteger val)              | 用于实现减法运算               |
-| BigInteger **multiply**(Biginteger val)              | 用于实现乘法计算               |
+| BigInteger **subtract**(BigInteger val)              | 用于实现减法运算               |
+| BigInteger **multiply**(BigInteger val)              | 用于实现乘法计算               |
 | BigInteger **divide**(Biginteger val)                | 用于实现除法计算               |
 | BigInteger **remainder**(Biginteger val)             | 用于实现取余运算               |
 | BigInteger[] **divideAndRemainder** (Biginteger val) | 用于实现取商和余数的运算       |
@@ -390,6 +394,8 @@ System.out.println("取余：" + b1.remainder(b2));//12
 BigInteger[] arr = b1.divideAndRemainder(b2);
 System.out.println("取商和取余：" + arr[0] + ";" + arr[1]); //4;12
 ```
+
+![java.math](./assets/java.math.png)
 
 ## String类的概述和使用
 
@@ -688,6 +694,8 @@ String sst2 = st.substring(ia + 3);
 System.out.println(sst2);
 ```
 
+<img src="./assets/String类.png" alt="String类" style="zoom:50%;" />
+
 ### 正则表达式（了解）
 
 概念：用于对字符串数据的格式进行验证，以及匹配，查找，替换等操作。该字符串通常使用^运算符作为开头标志，使用$运算符作为结尾标志，当然也可以忽略
@@ -843,6 +851,8 @@ sb.reverse();    // ufixix iH
 - String、StringBuilder、StringBuffer之间谁的效率高
 
     答：StringBuilder > StringBuffer > String
+
+<img src="./assets/StringBuilder类.png" alt="StringBuilder类" style="zoom:50%;" />
 
 ### Java8之前的日期相关类(熟悉)
 

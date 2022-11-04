@@ -1,4 +1,3 @@
-[TOC]
 
 ## 常用类的概述和使用
 
@@ -981,6 +980,8 @@ System.out.println(sdf.format(time2));
     }
     ```
 
+<img src="./assets/日期相关类(旧版).png" alt="日期相关类(旧版)" style="zoom:50%;" />
+
 ### Java8之后的日期相关类(熟悉)
 
 之前的Date类和Calendar类都有很多问题,例如:
@@ -1114,6 +1115,8 @@ String format = dtf.format(now);
 TemporalAccessor parse = dtf.parse(format);
 ```
 
+<img src="./assets/日期相关类(java.time).png" alt="日期相关类(java.time)" style="zoom:50%;" />
+
 ## 集合类库
 
 ```mermaid
@@ -1151,6 +1154,8 @@ B-->E;D-->F
 | int **hashCode**()                          | 获取当前集合的哈希码值                          |
 | Object[] **toArray**()                      | 将集合转换为数组                                |
 | Iterator<E> **iterator**()                  | 获取当前集合的迭代器                            |
+
+<img src="./assets/Collection集合.png" alt="Collection集合" style="zoom:80%;" />
 
 ```java
 //------------------元素的填加------------------
@@ -1316,6 +1321,8 @@ for (int i : arr){
 | E **set**(int index, E element)                         | 修改指定位置的元素       |
 | E **remove**(int index)                                 | 删除指定位置的元素       |
 | List<E> **subList**(int fromIndex , int toIndex)        | 用于获取子List           |
+
+<img src="./java核心模块(上).assets/List集合(列表).png" alt="List集合(列表)" style="zoom:50%;" />
 
 ```java
 List l = new LinkedList();
@@ -1617,11 +1624,13 @@ Set<Student> s2 = new TreeSet<>(cpt);
 | V **put**(K key , V value)              | 将Key-Value对存入Map，若集合中已经包含该Key，则替换Key所对应的Value，返回值为该Key原本Value，若没有返回null |
 | V **get**(Object key)                   | 返回与参数Key所对应的Value对象，如果不存在返回null           |
 | boolean **containsKey**(Object Key)     | 判断集合中是否包含指定的key                                  |
-| boolean **comtainsValue**(Object value) | 判断集合中是否包含指定的value                                |
+| boolean **containsValue**(Object value) | 判断集合中是否包含指定的value                                |
 | V **remove**(Object key)                | 根据参数指定的key进行删除                                    |
 | Set<k> **keySet**()                     | 返回此映射中包含的键的Set视图                                |
 | Collection<V> **values**()              | 返回此映射中包含的值得Set视图                                |
 | Set<Map,Entry<K,V>> **entrySet**()      | 返回此映射中包含的映射的Set视图                              |
+
+<img src="./java核心模块(上).assets/Map集合(字典).png" alt="Map集合(字典)" style="zoom:50%;" />
 
 ```java
 public static void main(String[] args) {

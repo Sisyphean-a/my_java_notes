@@ -436,6 +436,7 @@ try {
 
     byte[] bArr = new byte[1024];
     int res = 0;
+    // bis.read方法，如果读到末尾，就返回-1，一次读取的长度为bArr
     while ((res = bis.read(bArr)) != -1){
         bos.write(bArr,0,res);
     }
@@ -1147,8 +1148,11 @@ public class ThreadCallableTest implements Callable {
     }
 
     public static void main(String[] args) {
+        // 创建一个任务
         ThreadCallableTest tct = new ThreadCallableTest();
+        // 把任务改造成线程池模式
         FutureTask ft = new FutureTask(tct);
+        // 创建任务，启动
         Thread t = new Thread(ft);
         t.start();
         Object o = ft.get();	//此处需要处理异常 

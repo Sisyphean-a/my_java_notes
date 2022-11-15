@@ -17,6 +17,8 @@
 
 ### MySQL配置
 
+![MySQL基础](./MySQL.assets/MySQL%E5%9F%BA%E7%A1%80.png)
+
 #### 启动与关闭
 
 ```bash
@@ -24,7 +26,7 @@
 net start mysql80
 
 #关闭mysql
-new stop mysql80
+net stop mysql80
 ```
 
 #### 登录与退出
@@ -141,6 +143,8 @@ quit
 | 数据控制语言（DCL）  | 用来定义数据库的访问权限和安全级别， 及创建用户 |
 
 ## DDL 数据定义
+
+![DDL 数据定义](./MySQL.assets/DDL%20%E6%95%B0%E6%8D%AE%E5%AE%9A%E4%B9%89.png)
 
 ### 库操作
 
@@ -285,6 +289,8 @@ DROP TABLE IF EXISTS test2;
 
 核心格式：`数据操作 表名 ......`
 
+![DML 数据操作](./MySQL.assets/DML%20%E6%95%B0%E6%8D%AE%E6%93%8D%E4%BD%9C.png)
+
 ### 插入数据
 
 语法格式：`insert into 表名 （字段名1，字段名2...） values(字段值1，字段值2...);  `
@@ -342,6 +348,8 @@ truncate table student;
 ```
 
 ## DQL 数据查询
+
+<img src="./MySQL.assets/DQL%20%E6%95%B0%E6%8D%AE%E6%9F%A5%E8%AF%A2.png" alt="DQL 数据查询" style="zoom:67%;" />
 
 ### 查询
 
@@ -411,10 +419,10 @@ SELECT ename , salary + 1000 FROM emp;
      | 运算符            | 说明                                                         |
      | ----------------- | ------------------------------------------------------------ |
      | > < <= >= = <> != | 大于、小于、大于(小于)等于、不等于                           |
-     | BETWEEN ...AND... | 显示在某一区间的值 例如: 2000-10000之间： Between 2000 and 10000 |
-     | IN(集合)          | 集合表示多个值,使用逗号分隔,例如: name in (悟空，八戒) in中的每个数据都会作为一次条件,只要满足条件就会显示 |
-     | LIKE '%张%'       | 模糊查询                                                     |
-     | IS NULL           | 查询某一列为NULL的值, 注: 不能写 = NULL                      |
+     | between ...and... | 显示在某一区间的值 例如: 2000-10000之间： Between 2000 and 10000 |
+     | in(集合)          | 集合表示多个值,使用逗号分隔,例如: name in (悟空，八戒) in中的每个数据都会作为一次条件,只要满足条件就会显示 |
+     | like '%张%'       | 模糊查询                                                     |
+     | is null           | 查询某一列为NULL的值, 注: 不能写 = NULL                      |
 
 2.   逻辑运算符
 
@@ -473,9 +481,14 @@ SELECT * FROM emp WHERE dept_name IS NULL;
 SELECT * FROM emp WHERE dept_name IS NOT NULL;
 ```
 
-### 操作单表
 
-#### 排序
+# SQL单表&约束&事务
+
+## SQL单表
+
+<img src="./MySQL.assets/SQL%E5%8D%95%E8%A1%A8.png" alt="SQL单表" style="zoom: 25%;" />
+
+### 排序
 
 通过order by子句，可以将查询出来的结果进行排序（只是显式）
 
@@ -494,7 +507,7 @@ SELECT * FROM emp WHERE sex = '女' ORDER BY salary DESC;
 SELECT * FROM emp ORDER BY salary DESC, eid DESC
 ```
 
-#### 聚合函数
+### 聚合函数
 
 对列值进行计算，例如求和，求最大值等等
 
@@ -526,7 +539,7 @@ SELECT COUNT(eid) FROM emp WHERE dept_name = '教学部';
 SELECT AVG(salary) FROM emp WHERE dept_name = '市场部'; 
 ```
 
-#### 分组
+### 分组
 
 使用group by 语句，对查询的信息进行分组，相同数据为一组
 
@@ -565,7 +578,7 @@ FROM emp WHERE dept_name IS NOT NULL GROUP BY dept_name HAVING AVG(salary) >
 6000 ;
 ```
 
-#### limit关键字
+### limit关键字
 
 作用：
 
@@ -591,8 +604,6 @@ SELECT * FROM emp LIMIT 3,3; -- 第2页 2-1=1 1*3=3
 SELECT * FROM emp LIMIT 6,3; -- 第三页
 ```
 
-# SQL约束与事务
-
 ## SQL约束
 
 作用：对表中的数据进行限制，从而保证数据的正确性，有效性，完整性。违背约束的不正确数据，无法插入到表中
@@ -605,6 +616,8 @@ SELECT * FROM emp LIMIT 6,3; -- 第三页
 | 唯一   | unique      |
 | 非空   | not null    |
 | 外键   | foreign key |
+
+![SQL约束](./MySQL.assets/SQL%E7%BA%A6%E6%9D%9F.png)
 
 ### 主键约束
 
@@ -747,9 +760,11 @@ CREATE TABLE emp4(
 );
 ```
 
-## 数据库事物
+## 数据库事务
 
 概念：事务是一个整体，由一条或者多条SQL 语句组成，这些SQL语句要么都执行成功，要么都执行失败， 只要有一条SQL出现异常,整个操作就会回滚，整个业务执行失败  
+
+![数据库事务](./MySQL.assets/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1.png)
 
 ### MySQL事务操作
 
@@ -758,7 +773,7 @@ CREATE TABLE emp4(
 1.   手动提交事物
 2.   自动提交事物
 
-### 手动提交事物
+### 手动提交事务
 
 语法格式：
 
@@ -957,6 +972,8 @@ CREATE TABLE employee(
 ## 多表关系设计
 
 实际开发中，一个项目通常需要很多张表才能完成。例如：一个商城项目就需要分类表(category)、商品表(products)、订单表(orders)等多张表。且这些表的数据之间存在一定的关系
+
+![多表](./MySQL.assets/%E5%A4%9A%E8%A1%A8.png)
 
 ### 表与表的三种关系
 

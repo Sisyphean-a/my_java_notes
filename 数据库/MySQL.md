@@ -144,7 +144,7 @@ quit
 
 ## DDL 数据定义
 
-![DDL 数据定义](./MySQL.assets/DDL%20%E6%95%B0%E6%8D%AE%E5%AE%9A%E4%B9%89.png)
+![DDL 数据定义](./MySQL.assets/DDL%20%E6%95%B0%E6%8D%AE%E5%AE%9A%E4%B9%89-1668583647059-1.png)
 
 ### 库操作
 
@@ -187,8 +187,6 @@ ALTER DATABASE db1 CHARACTER SET utf8;
 | 命令                   | 说明                          |
 | ---------------------- | ----------------------------- |
 | drop database 数据库名 | 从MySql中永久的删除某个数据库 |
-
-
 
 ### 表操作
 
@@ -1661,11 +1659,86 @@ source sql文件地址
 
 
 
+# 课后习题
 
+## 基础查询
 
+### 数据准备
 
+插入部门数据
 
+```mysql
+CREATE TABLE dept(
+	did INT PRIMARY KEY AUTO_INCREMENT,
+	dname VARCHAR(20)
+);
 
+ALTER TABLE dept CHANGE NAME NAME VARCHAR(255) CHARACTER SET utf8;
 
+INSERT INTO dept (NAME) VALUES ('开发部'),('市场部'),('财务部');
+```
 
+插入员工数据
 
+```mysql
+CREATE TABLE employee (
+	eid INT PRIMARY KEY AUTO_INCREMENT,
+	ename VARCHAR(10),
+	gender CHAR(1),   -- 性别
+	salary DOUBLE,   -- 工资
+	join_date DATE,  -- 入职日期
+	dept_id INT,
+	FOREIGN KEY (dept_id) REFERENCES dept(id) -- 外键，关联部门表(部门表的主键)
+);
+
+INSERT INTO employee(NAME,gender,salary,join_date,dept_id) VALUES('孙悟空','男',7200,'2013-02-24',1);
+INSERT INTO employee(NAME,gender,salary,join_date,dept_id) VALUES('猪八戒','男',3600,'2010-12-02',2);
+INSERT INTO employee(NAME,gender,salary,join_date,dept_id) VALUES('唐僧','男',9000,'2008-08-08',2);
+INSERT INTO employee(NAME,gender,salary,join_date,dept_id) VALUES('白骨精','女',5000,'2015-10-07',3);
+INSERT INTO employee(NAME,gender,salary,join_date,dept_id) VALUES('蜘蛛精','女',4500,'2011-03-14',1);
+```
+
+### 习题
+
+```mysql
+-- 查询工资最高的员工是谁
+SELECT 
+	*
+FROM employee 
+WHERE salary = (SELECT MAX(salary) FROM employee);
+
+-- 查询工资小于平均工资的员工有哪些
+SELECT 
+	*
+FROM employee
+WHERE salary < (SELECT AVG(salary) FROM employee);
+
+-- 查询大于5000的员工，来自于哪些部分，输出部分的名字
+CREATE VIEW employee_dept AS 
+SELECT
+	e.ename,
+	e.gender,
+	e.salary,
+	e.join_date,
+	d.dname
+FROM employee e , dept d WHERE e.dept_id = d.did;
+
+SELECT 
+	dname
+FROM employee_dept 
+WHERE salary > 5000;
+
+-- 查询开发部与财务部所有的员工信息
+SELECT 
+	*
+FROM employee_dept
+WHERE dname = '开发部' || dname = '财务部';
+
+-- 查询2011年以后入职的员工信息和部门信息
+SELECT
+	*
+FROM employee_dept
+WHERE join_date > '2011-00-00';
+```
+
+## 

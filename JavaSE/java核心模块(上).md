@@ -312,7 +312,7 @@ System.out.println("转为小写：" + Character.toLowerCase(c1));
 
   调用包装类的parseXxx方法即可
 
-<img src="./../../Documents/Xmind/Object类.png" alt="Object类" style="zoom:80%;" />
+![Object类](./java核心模块(上).assets/Object类.png)
 
 ### 数学处理类
 

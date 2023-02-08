@@ -321,7 +321,7 @@ public class ThreeEyes{
         double num1 = sc.nextDouble();
         double num2 = sc.nextDouble();
         
-        System.out.println("两数中的最大值为："+(num1>num2)? num1:num2)
+        System.out.println("两数中的最大值为："+(num1>num2? num1:num2))
     }
 }
 ```

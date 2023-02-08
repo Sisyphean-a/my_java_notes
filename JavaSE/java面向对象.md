@@ -573,7 +573,7 @@ public class StaticTest {
 ```java
 public class BlockTest{
 
-    //当需要在执行构造方法体之前做一些准备工作是，将准备工作的相关代码写在构造块之中即可，例如对成员变量进行统一的初始化操作
+    //当需要在执行构造方法体之前做一些准备工作时，将准备工作的相关代码写在构造块之中即可，例如对成员变量进行统一的初始化操作
     //会在构造方法体之前，静态代码块之后运行
     {
         System.out.println("构造块");
@@ -839,7 +839,7 @@ public void show(){
 
 - public修饰的成员可以在任意位置使用
 - private修饰的成员只能在本类内部使用
-- 通常情况下，成员方法都使用public关键字修饰，成员变量都使用private关键字修饰
+- 通常情况下，**成员方法都使用public关键字修饰，成员变量都使用private关键字修饰**
 
 #### package
 
@@ -897,6 +897,8 @@ public void show(){
 ​		当然，也可以在构造方法体中初始化，需注意，值不可改变
 
 #### 常量
+
+常量：公有的public，类层级的static，不可修改的final
 
 在开发中，很少单独使用final关键字来修饰成员变量，通常使用`public static final`关键字共同修饰成员变量来表达常量的含义，常量的命名规范**要求所有字母都要大写**，不同的单词之间采用**下划线连接**
 
@@ -958,7 +960,7 @@ public void show(){
 
 >  `ClassCastException`：类型转换异常，需记忆
 
-- 为了避免上述错误的发生，应该在强转之前进行判断，格式如下：
+- 为了避免上述错误的发生，应该在强转之前使用**instanceof**关键字进行判断，格式如下：
 
   `if (引用变量 instanceof 数据类型)`
 
@@ -1025,7 +1027,7 @@ public void show(){
 
 #### 抽象方法
 
-概念：指不能具体实现的方法并且使用abstract关键字修饰。也就是没有方法体
+概念：指不能具体实现的方法并且使用**abstract**关键字修饰。也就是没有方法体
 
 格式：`访问权限 abstract 返回值类型 方法名（形参列表）;`
 
@@ -1033,7 +1035,7 @@ public void show(){
 
 #### 抽象类
 
-概念：指不能具体实例化的类并且使用abstract关键字修饰，也就是不能创建对象
+概念：指不能具体实例化的类并且使用**abstract**关键字修饰，也就是不能创建对象
 
 例如：`public abstract class Cry`
 
@@ -1064,9 +1066,9 @@ public class SubAnimals extents Animals{
 
 银行有定期账户和活期账户。继承自账户类。账户类中：
 
-public class Account{
+`public class Account{`
 
-​	private double money; public double getLixi(){} 	}
+​	`private double money; public double getLixi(){}}`
 
 ### 笔试考点
 
@@ -1137,10 +1139,10 @@ public class Bat implements Bird,Lactation{
 
 #### 接口和抽象类的主要区别
 
-- 定义抽象类的关键字是abstract class，而定义接口的关键字是interface
+- 定义抽象类的关键字是abstract，而定义接口的关键字是interface
 - 继承抽象类的关键字是extends，而实现接口的关键字是implements
 - 继承抽象类支持单继承，而实现接口支持多实现
-- 抽象类可以有构造 方法，而接口不可以有构造方法
+- 抽象类可以有构造方法，而接口不可以有构造方法
 - 抽象类中可以有成员变量，而接口中只可以有常量
 - 抽象类可以有成员方法，而接口中只可以有抽象方法
 - 新特性：接口中允许出现非抽象方法和静态方法，但非抽象方法需要使用`default`关键字修饰
@@ -1148,12 +1150,14 @@ public class Bat implements Bird,Lactation{
 
 ```java
 public interface Hunter extends Runner{
+    
     //一个抽象类，没有方法体
     void hunting();
 
     private void show(){
         System.out.println("这是一个私有方法，只能内部调用")；
     }
+    
     //使用default关键字可以实现“子类”自由选择是否重写此方法
     public default void show1(){
         show()；

@@ -119,8 +119,8 @@ while(resultSet.next()){
 ### 流程总结
 
 1. 获取驱动（略）
-2. 获取连接
-3. 获取Statement对象
+2. 获取连接：getConnection(url,user,password)
+3. 获取Statement对象：createStatement()
 4. 处理结果集（只在查询时处理）
 5. 释放资源
 

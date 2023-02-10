@@ -541,13 +541,79 @@ public class HelloWorld extends HttpServlet {
     String userName = new String(name.getBytes(“ISO-8859-1”),“utf-8");
 ```
 
+### 解决响应乱码
 
+```java
+// 设置响应输出编码，避免中文乱码
+response.setContentType("text/html;charset=utf-8");
+```
 
+## ServletConfig接口（熟悉）
 
+### 概念：
 
+javax.servlet.ServletConfig接口用于描述Servlet本身的相关配置信息，在初始化期间用于将信息传递给Servlet配置对象。  
 
+### 配置方法
 
+```xml
+<!-- 在web.xml中配置ServletConfig初始化参数 -->
+<servlet>
+    <servlet-name>actionservlet</servlet-name>
+    <servlet-class>com.lagou.demo01.ActionServlet</servlet-class>
+    <!-- 配置 Serlvet 的初始化参数 -->
+    <init-param>
+        <!-- 参数名 -->
+        <param-name>config</param-name>
+        <!-- 参数值 -->
+        <param-value>struts.xml</param-value>
+    </init-param>
+</servlet>
+```
 
+### 常用的方法
+
+| 方法声明                             | 功能介绍                                                     |
+| ------------------------------------ | ------------------------------------------------------------ |
+| String getServletName()              | 返回Servlet的别名                                            |
+| String getInitParameter(String name) | 返回包含初始化参数值的字符串，如果该参数不存在，则返回null   |
+| Enumeration getInitParameterNames()  | 将servlet的初始化参数的名称作为字符串对象的枚举返回，如果 servlet没有初始化参数，则返回空枚举 |
+| ServletContext getServletContext()   | 返回对调用方正在其中执行的ServletContext的引用               |
+
+## ServletContext接口（熟悉）
+
+### 概念：
+
+- javax.servlet.ServletContext接口主要用于定义一组方法，Servlet使用这些方法与它的Servlet容器通信。
+- 服务器容器在启动时会为每个项目创建唯一的一个ServletContext对象，用于实现多个Servlet之间的信息共享和通信。
+- 在Servlet中通过`this.getServletContext()`方法可以获得ServletContext对象。  
+
+### 配置方法
+
+```xml
+<!--在web.xml中配置ServletContext初始化参数 -->
+<context-param>
+    <param-name>username</param-name>
+    <param-value>scott</param-value>
+<context-param>
+<context-param>
+    <param-name>password</param-name>
+    <param-value>tiger</param-value>
+<context-param>
+```
+
+### 常用方法
+
+| 方法声明                                      | 功能介绍                                                     |
+| --------------------------------------------- | ------------------------------------------------------------ |
+| String getInitParameter(String name)          | 返回包含初始化参数值的字符串，如果该参数不存在，则返回 null  |
+| Enumeration getInitParameterNames()           | 将servlet的初始化参数的名称作为字符串对象的枚举返回，如 果servlet没有初始化参数，则返回空枚举 |
+| String getRealPath(String path)               | 返回包含给定虚拟路径的实际路径的字符串                       |
+| String getContextPath()                       | 返回与此上下文关联的主路径                                   |
+| InputStream getResourceAsStream(String path)  | 将位于指定路径的资源作为InputStream对象返回                  |
+| void setAttribute(String name, Object object) | 将指定的属性名和属性值绑定到当前对象                         |
+| Object getAttribute(String name)              | 根据执行的属性名获取属性值                                   |
+| void removeAttribute(String name)             | 删除指定的属性名信息                                         |
 
 
 

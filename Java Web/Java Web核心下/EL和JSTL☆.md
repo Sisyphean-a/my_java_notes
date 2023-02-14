@@ -1,4 +1,4 @@
-## EL表达式
+## EL表达式（熟悉）
 
 ### 概念
 
@@ -128,7 +128,7 @@ request.getParameterValues(name);  `
 
   `${empty 表达式}  `
 
-## JSTL标签
+## JSTL标签（熟悉）
 
 ### 概念
 

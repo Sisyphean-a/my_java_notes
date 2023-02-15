@@ -154,17 +154,185 @@
     tar zxvf 压缩文件名.tar.gz			# 实现解压缩解包
     ```
 
-    
 
+## 开发环境搭建
 
+### JDK的下载与安装
 
+- 下载地址：https://www.oracle.com/java/technologies/javase-downloads.html  
+- 安装方式：上传到CentOS系统中，使用tar -zxvf命令解压
 
+- 配置环境变量：使用root用户打开配置文件/etc/profile，追加以下内容
 
+  ```sh
+  export JAVA_HOME=/usr/javajdk
+  export PATH=$JAVA_HOME/bin:$PATH
+  ```
 
+- 激活配置
 
+  ```sh
+  source /etc/profile
+  javac -version
+  ```
 
+### Tomcat下载与安装
 
+- 下载地址：https://tomcat.apache.org/download-80.cgi  
 
+- 安装方式：同上
 
+- 启动方法和关闭方法：`startup.sh` , `shutdown.sh`
 
+- 配置防火墙端口：开放8080端口，可以只开放出站口
+
+- 配置环境变量：可以暂不配置，方法同上
+
+  ```sh
+  export CATALINA_HOME=/usr/tomcat
+  export PATH=$CATALINA_HOME/bin:$PATH
+  ```
+
+- 发布项目：将Web项目打成war包，将war包放在tomcat/webapp目录并启动  
+
+### Mysql的下载和安装
+
+1. 下载Mysql的repo源
+
+   ```sh
+   wget http://dev.mysql.com/get/mysql57-community-release-el7-8.noarch.rpm
+   ```
+
+2. 安装rpm包
+
+   ```sh
+   rpm -ivh mysql57-community-release-el7-8.noarch.rpm
+   ```
+
+3. 更新MySQL GPG 密钥，以2022为例
+
+   ```sh
+   rpm --import https://repo.mysql.com/RPM-GPG-KEY-mysql-2022
+   ```
+
+4. 安装Mysql
+
+   ```sh
+   yum install mysql-server
+   ```
+
+5. 启动服务并查看服务状态
+
+   ```sh
+   service mysqld start
+   systemctl status mysqld
+   ```
+
+6. 查看随机生成的初始密码并修改
+
+   ```sh
+   # 查看随机密码，输出的最后几位就是
+   grep 'temporary password' /var/log/mysqld.log
+   
+   # 使用root用户登录
+   mysql -u root -p
+   
+   # 修改临时密码
+   alter user 'root'@'localhost' identified by 'QiDian@666';
+   ```
+
+7. 使用SQLyog工具访问远程数据库
+
+   ```sh
+   # 如果遇见错误码1130，使用下面方法解决，别忘了开放3306端口
+   mysql -u root -p
+   use mysql;
+   select host from user where user='root';
+   update user set host='%' where user='root';
+   flush privileges;
+   # 如果最后输出的mysql表中中host值改为了通配符%
+   select user,host from user;
+   ```
+
+## Shell编程
+
+> 程序开头：`#!/bin/bash `，用来说明使用哪种编译器 
+
+### 执行方式
+
+- ./fileName : 此方式需要执行权限，可以先`chmod 770 fileName`
+
+- sh fileName : 此方法不需要执行权限
+
+### 变量
+
+#### 语法格式：
+
+- 定义变量：`变量=值`
+- 撤销变量：`unset 变量  `
+
+#### 注意事项
+
+1. 中间不能有空格，可以有下划线。
+2. 在bash中，变量默认类型都是字符串类型，无法直接进行数值运算。
+3. 变量的值如果有空格，需要使用双引号或单引号括起来。  
+
+### 常见运算符
+
+### 流程控制语句
+
+#### if判断
+
+```sh
+if [ 条件判断式 ]
+	then
+		程序
+fi
+```
+
+#### case语句
+
+```sh
+case $变量名 in
+    "值1"）
+        如果变量的值等于值1，则执行程序1
+        ;;
+    "值2"）
+        如果变量的值等于值2，则执行程序2
+        ;;
+    	…省略其他分支…
+    *）
+   		如果变量的值都不是以上的值，则执行此程序
+    ;;
+esac
+```
+
+#### for循环
+
+```sh
+for (( 初始值;循环控制条件;变量变化 ))
+do
+	程序
+done
+```
+
+#### while循环
+
+```sh
+while [ 条件判断式 ]
+do
+	程序
+done
+```
+
+#### 函数
+
+```sh
+[ function ] funname[()]
+{
+    Action;
+    [return int;]
+} 
+funname
+```
 

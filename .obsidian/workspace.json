@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "1.JavaSE/预备内容.md",
+                "file": "4.开发框架SSM/Mybatis/Mybatis基础.md",
                 "mode": "source",
                 "source": false
               }
@@ -86,7 +86,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "1.JavaSE/预备内容.md",
+                "file": "4.开发框架SSM/Mybatis/Mybatis基础.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -103,7 +103,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "1.JavaSE/预备内容.md",
+                "file": "4.开发框架SSM/Mybatis/Mybatis基础.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -126,7 +126,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "1.JavaSE/预备内容.md"
+                "file": "4.开发框架SSM/Mybatis/Mybatis基础.md"
               }
             }
           }
@@ -147,6 +147,8 @@
       "command-palette:打开命令面板": false
     }
   },
-  "active": "73d64686b57a3317",
-  "lastOpenFiles": []
+  "active": "968a9edd301a0860",
+  "lastOpenFiles": [
+    "1.JavaSE/预备内容.md"
+  ]
 }

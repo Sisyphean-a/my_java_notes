@@ -64,9 +64,16 @@
               "type": "starred",
               "state": {}
             }
+          },
+          {
+            "id": "3b3f56599597f6ea",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {}
+            }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "horizontal",
@@ -147,7 +154,7 @@
       "command-palette:打开命令面板": false
     }
   },
-  "active": "968a9edd301a0860",
+  "active": "05f1b27d5f21631b",
   "lastOpenFiles": [
     "1.JavaSE/预备内容.md"
   ]

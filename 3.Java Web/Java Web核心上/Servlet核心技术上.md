@@ -341,14 +341,14 @@ Servlet容器创建一个ServletRequest对象，并将其作为参数传递给Se
 
 #### 常用方法
 
-| 方法声明                                      | 功能介绍                                                     |
-| --------------------------------------------- | ------------------------------------------------------------ |
-| String **getParameter**(String name)          | 以字符串形式返回请求参数的值，如果该参数不存在，则返回空值   |
-| String[] **getParameterValues**( String name) | 返回一个字符串对象数组，其中包含给定请求参数所具有的所有值，如果该参数不存在，则返回空值 |
-| Enumeration **getParameterNames**()           | 返回包含此请求中包含的参数名称的字符串对象的枚举。如果请求没有参数，则方法返回空枚举 |
-| Map<String, String[]> **getParameterMap**()   | 返回请求参数的键值对，一个键可以对应多个值                   |
-| String getRemoteAddr()                        | 返回发送请求的客户端或最后一个代理的IP地址                   |
-| int getRemotePort()                           | 返回发送请求的客户端或最后一个代理的端口号                   |
+| 方法声明                                     | 功能介绍                                                     |
+| -------------------------------------------- | ------------------------------------------------------------ |
+| String **getParameter**(String name)         | 以字符串形式返回请求参数的值，如果该参数不存在，则返回空值   |
+| String[] **getParameterValues**(String name) | 返回一个字符串对象数组，其中包含给定请求参数所具有的所有值，如果该参数不存在，则返回空值 |
+| Enumeration **getParameterNames**()          | 返回包含此请求中包含的参数名称的字符串对象的枚举。如果请求没有参数，则方法返回空枚举 |
+| Map<String,String[]> **getParameterMap**()   | 返回请求参数的键值对，一个键可以对应多个值                   |
+| String getRemoteAddr()                       | 返回发送请求的客户端或最后一个代理的IP地址                   |
+| int getRemotePort()                          | 返回发送请求的客户端或最后一个代理的端口号                   |
 
 ```html
 <!DOCTYPE html>
@@ -534,7 +534,7 @@ public class HelloWorld extends HttpServlet {
 ### 解决Get接收乱码
 
 ```java
-将接收到的中文乱码重新编码:
+//将接收到的中文乱码重新编码:
     // 接收到get请求的中文字符串
     String name = request.getParameter("name");
     // 将中文字符重新编码，默认编码为ISO-8859-1
